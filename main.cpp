@@ -1,4 +1,5 @@
 #include <iostream>
+
 /*
  * zadeklarować tablicę numeryczną typu float, n elementowa,
  * n - stała define
@@ -20,6 +21,33 @@
  */
 using namespace std;
 int main() {
+    const int n = 10;
+    int choice;
+    float salaryArray[n];
+
+    do {
+        cout << "Wybierz opcje z menu:" << endl;
+        cout << "[1] Wczytanie kwoty" << endl;
+        cout << "[2] Wyświetl dane" << endl;
+        cout << "[3] Obliczenia" << endl;
+        cout << "[4] Wyszukaj z wybranego przedziału" << endl;
+        cout << "[5] Zakończ" << endl;
+        cout << "Twój wybór: ";
+        cin >> choice;
+        while(choice>5 || choice<1)
+        {
+            cout<<"Wprowadź prawidłowy wybór " << endl;
+            cin >> choice;
+        }
+
+        switch (choice) {
+            case 1:
+                cout << "test" << endl;
+                break;
+            case 5:
+                return 0;
+        }
+    } while (choice >=1 && choice <= 5);
 
     return 0;
 }
