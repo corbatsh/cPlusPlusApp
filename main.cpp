@@ -21,42 +21,45 @@
  *          - Posortowanie, malejąco lub rosnąco.
  */
 using namespace std;
-
-int resetMenu(int choice)
+void showMenu()
 {
-    while(choice>5 || choice<1)
-    {
-        cout<<"Wprowadź prawidłowy wybór " << endl;
-        cin >> choice;
-    }
+    cout << "Wybierz opcje z menu:" << endl;
+    cout << "[1] Wczytanie kwoty" << endl;
+    cout << "[2] Wyświetl dane" << endl;
+    cout << "[3] Obliczenia" << endl;
+    cout << "[4] Wyszukaj z wybranego przedziału" << endl;
+    cout << "[5] Zakończ" << endl;
+    cout << "Twój wybór: ";
 }
-
 int main() {
     const int n = 10;
     int choice;
-    float salaryArray[n];
+    bool repeat;
+   // float salaryArray[n];
     cout << "Aplikacja płacowa" << endl << endl;
     do {
-        cout << "Wybierz opcje z menu:" << endl;
-        cout << "[1] Wczytanie kwoty" << endl;
-        cout << "[2] Wyświetl dane" << endl;
-        cout << "[3] Obliczenia" << endl;
-        cout << "[4] Wyszukaj z wybranego przedziału" << endl;
-        cout << "[5] Zakończ" << endl;
-        cout << "Twój wybór: ";
+        showMenu();
         cin >> choice;
-        while(cin.bad() || cin.fail())
+        while(choice>5 || choice<1)
         {
-            cin.clear();
+            cout << endl << "Wartość nieprawidłowa! Wybierz jeszcze raz:" << endl << endl;
+            showMenu();
             cin >> choice;
+            if(cin.bad() || cin.fail())
+            {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
         }
-        resetMenu(choice);
         switch (choice) {
             case 1:
                 cout << "test" << endl;
                 break;
             case 5:
                 return 0;
+            default:
+                choice = 6;
+                repeat = true;
         }
     } while (choice >=1 && choice <= 5);
 
