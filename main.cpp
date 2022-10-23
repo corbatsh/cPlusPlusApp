@@ -1,4 +1,5 @@
 #include <iostream>
+#include <typeinfo>
 
 /*
  * zadeklarować tablicę numeryczną typu float, n elementowa,
@@ -20,11 +21,21 @@
  *          - Posortowanie, malejąco lub rosnąco.
  */
 using namespace std;
+
+int resetMenu(int choice)
+{
+    while(choice>5 || choice<1)
+    {
+        cout<<"Wprowadź prawidłowy wybór " << endl;
+        cin >> choice;
+    }
+}
+
 int main() {
     const int n = 10;
     int choice;
     float salaryArray[n];
-
+    cout << "Aplikacja płacowa" << endl << endl;
     do {
         cout << "Wybierz opcje z menu:" << endl;
         cout << "[1] Wczytanie kwoty" << endl;
@@ -34,12 +45,12 @@ int main() {
         cout << "[5] Zakończ" << endl;
         cout << "Twój wybór: ";
         cin >> choice;
-        while(choice>5 || choice<1)
+        while(cin.bad() || cin.fail())
         {
-            cout<<"Wprowadź prawidłowy wybór " << endl;
+            cin.clear();
             cin >> choice;
         }
-
+        resetMenu(choice);
         switch (choice) {
             case 1:
                 cout << "test" << endl;
