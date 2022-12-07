@@ -20,7 +20,30 @@
  *          - Walidacja widełek - najpierw mniejsze, a potem większe. Mogą być równe
  *          - Posortowanie, malejąco lub rosnąco.
  */
+
 using namespace std;
+class Employee {
+    int id;
+    char name[30];
+    float salary;
+public:
+    void getData();
+    void putData();
+};
+void Employee::putData() {//Defining of function
+    cout << "Enter Id : ";
+    cin >> id;
+    cout << "Enter Name : ";
+    cin >> name;
+    cout << "Enter salary";
+    cin >> salary;
+}
+void Employee::getData(){//Defining of function
+    cout << id <<" ";
+    cout << name <<" ";
+    cout << salary << " ";
+    cout<<endl;
+}
 void showMenu()
 {
     cout << "Wybierz opcje z menu:" << endl;
@@ -31,37 +54,54 @@ void showMenu()
     cout << "[5] Zakończ" << endl;
     cout << "Twój wybór: ";
 }
+
+
+
+void processMenu(int menuChoice) {
+    bool restart;
+    int id[10];
+    switch (menuChoice) {
+        case 1:
+            cout << "Your choice is to put new employee data:";
+            for(int i = 1; i < sizeof(id); ++i)
+            {
+                Employee person[sizeof(id)];
+                person[i].putData();
+            }
+            break;
+        case 2:
+            cout << "work in progress1";
+            break;
+        case 3:
+            cout << "work in progress2";
+            break;
+        case 4:
+            cout << "work in progress3";
+        case 5:
+            cout << "work in progress4";
+        default:
+            EXIT_SUCCESS;
+    }
+}
 int main() {
-    const int n = 10;
-    int choice;
-    bool repeat;
-   // float salaryArray[n];
+    int menuChoice;
     cout << "Aplikacja płacowa" << endl << endl;
     do {
         showMenu();
-        cin >> choice;
-        while(choice>5 || choice<1)
+        cin >> menuChoice;
+        while(menuChoice>5 || menuChoice<1)
         {
             cout << endl << "Wartość nieprawidłowa! Wybierz jeszcze raz:" << endl << endl;
             showMenu();
-            cin >> choice;
+            cin >> menuChoice;
             if(cin.bad() || cin.fail())
             {
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
         }
-        switch (choice) {
-            case 1:
-                cout << "test" << endl;
-                break;
-            case 5:
-                return 0;
-            default:
-                choice = 6;
-                repeat = true;
-        }
-    } while (choice >=1 && choice <= 5);
+        processMenu(menuChoice);
+    } while (menuChoice >=1 && menuChoice <= 5 );
 
     return 0;
 }
