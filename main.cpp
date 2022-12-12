@@ -1,5 +1,6 @@
 #include <iostream>
 #include <typeinfo>
+#include <fstream>
 
 /*
  * zadeklarować tablicę numeryczną typu float, n elementowa,
@@ -22,6 +23,15 @@
  */
 
 using namespace std;
+int menuChoice;
+void badCinPrevent() {
+    if(cin.bad() || cin.fail())
+    {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
 class Employee {
     int id;
     char name[30];
@@ -29,20 +39,31 @@ class Employee {
 public:
     void getData();
     void putData();
+    int returnID();
+    string returnName();
+    float returnSalary();
 };
 void Employee::putData() {//Defining of function
     cout << "Enter Id : ";
     cin >> id;
     cout << "Enter Name : ";
     cin >> name;
-    cout << "Enter salary";
+    cout << "Enter salary : ";
     cin >> salary;
 }
 void Employee::getData(){//Defining of function
     cout << id <<" ";
     cout << name <<" ";
     cout << salary << " ";
-    cout<<endl;
+}
+int Employee::returnID() {
+    return id;
+}
+string Employee::returnName() {
+    return name;
+}
+float Employee::returnSalary() {
+    return salary;
 }
 void showMenu()
 {
@@ -58,15 +79,41 @@ void showMenu()
 
 
 void processMenu(int menuChoice) {
-    bool restart;
-    int id[10];
+    ofstream employeeId("employeesId.txt");
+    ofstream employeeName("employeesName.txt");
+    ofstream employeeSalary("employeesSalary.txt");
+    employeeId.open("employeesId.txt", std::ios::app);
+    employeeId.open("employeesName.txt", std::ios::app);
+    employeeId.open("employeesSalary.txt", std::ios::app);
+    bool addMoreEmployees = true;
+    int memory[10];
     switch (menuChoice) {
         case 1:
-            cout << "Your choice is to put new employee data:";
-            for(int i = 1; i < sizeof(id); ++i)
+            cout << "Your choice is to put new employee data:\n";
+            for(int i = 1; i < sizeof(memory); ++i)
             {
-                Employee person[sizeof(id)];
+                Employee person[i];
                 person[i].putData();
+                int id = person[i].returnID();
+                string name = person[i].returnName();
+                float salary = person[i].returnSalary();
+                cout << "\nFor exit the new employee data adding, press 0: ";
+                cin >> addMoreEmployees;
+                badCinPrevent();
+                employeeId << id << endl;
+                employeeName << name << endl;
+                employeeSalary << salary << endl;
+                if (!addMoreEmployees)
+                {
+                    employeeId.close();
+                    employeeName.close();
+                    employeeSalary.close();
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
             }
             break;
         case 2:
@@ -78,30 +125,25 @@ void processMenu(int menuChoice) {
         case 4:
             cout << "work in progress3";
         case 5:
-            cout << "work in progress4";
+            break;
         default:
             EXIT_SUCCESS;
     }
 }
 int main() {
-    int menuChoice;
     cout << "Aplikacja płacowa" << endl << endl;
     do {
         showMenu();
         cin >> menuChoice;
+        badCinPrevent();
+        if (menuChoice == 5) return 0;
         while(menuChoice>5 || menuChoice<1)
         {
             cout << endl << "Wartość nieprawidłowa! Wybierz jeszcze raz:" << endl << endl;
-            showMenu();
-            cin >> menuChoice;
-            if(cin.bad() || cin.fail())
-            {
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
+            break;
         }
         processMenu(menuChoice);
-    } while (menuChoice >=1 && menuChoice <= 5 );
+    } while (menuChoice >=1 && menuChoice <= 5);
 
     return 0;
 }
