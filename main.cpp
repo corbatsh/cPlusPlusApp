@@ -23,50 +23,15 @@
  */
 
 using namespace std;
-int menuChoice;
+
 void badCinPrevent() {
-    if(cin.bad() || cin.fail())
-    {
+    if (cin.bad() || cin.fail()) {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 
-class Employee {
-    int id;
-    char name[30];
-    float salary;
-public:
-    void getData();
-    void putData();
-    int returnID();
-    string returnName();
-    float returnSalary();
-};
-void Employee::putData() {//Defining of function
-    cout << "Enter Id : ";
-    cin >> id;
-    cout << "Enter Name : ";
-    cin >> name;
-    cout << "Enter salary : ";
-    cin >> salary;
-}
-void Employee::getData(){//Defining of function
-    cout << id <<" ";
-    cout << name <<" ";
-    cout << salary << " ";
-}
-int Employee::returnID() {
-    return id;
-}
-string Employee::returnName() {
-    return name;
-}
-float Employee::returnSalary() {
-    return salary;
-}
-void showMenu()
-{
+void showMenu() {
     cout << "Wybierz opcje z menu:" << endl;
     cout << "[1] Wczytanie kwoty" << endl;
     cout << "[2] Wyświetl dane" << endl;
@@ -76,74 +41,51 @@ void showMenu()
     cout << "Twój wybór: ";
 }
 
-
-
-void processMenu(int menuChoice) {
-    ofstream employeeId("employeesId.txt");
-    ofstream employeeName("employeesName.txt");
-    ofstream employeeSalary("employeesSalary.txt");
-    employeeId.open("employeesId.txt", std::ios::app);
-    employeeId.open("employeesName.txt", std::ios::app);
-    employeeId.open("employeesSalary.txt", std::ios::app);
-    bool addMoreEmployees = true;
-    int memory[10];
-    switch (menuChoice) {
-        case 1:
-            cout << "Your choice is to put new employee data:\n";
-            for(int i = 1; i < sizeof(memory); ++i)
-            {
-                Employee person[i];
-                person[i].putData();
-                int id = person[i].returnID();
-                string name = person[i].returnName();
-                float salary = person[i].returnSalary();
-                cout << "\nFor exit the new employee data adding, press 0: ";
-                cin >> addMoreEmployees;
-                badCinPrevent();
-                employeeId << id << endl;
-                employeeName << name << endl;
-                employeeSalary << salary << endl;
-                if (!addMoreEmployees)
-                {
-                    employeeId.close();
-                    employeeName.close();
-                    employeeSalary.close();
-                    break;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            break;
-        case 2:
-            cout << "work in progress1";
-            break;
-        case 3:
-            cout << "work in progress2";
-            break;
-        case 4:
-            cout << "work in progress3";
-        case 5:
-            break;
-        default:
-            EXIT_SUCCESS;
-    }
-}
 int main() {
+    int menuChoice;
+    bool addMoreEmployees = true;
+    string employeeName[10];
+    float employeeSalary[10] = {0};
     cout << "Aplikacja płacowa" << endl << endl;
     do {
         showMenu();
         cin >> menuChoice;
         badCinPrevent();
         if (menuChoice == 5) return 0;
-        while(menuChoice>5 || menuChoice<1)
-        {
+        while (menuChoice > 5 || menuChoice < 1) {
             cout << endl << "Wartość nieprawidłowa! Wybierz jeszcze raz:" << endl << endl;
             break;
         }
-        processMenu(menuChoice);
-    } while (menuChoice >=1 && menuChoice <= 5);
+        switch (menuChoice) {
+            case 1:
+                cout << "Your choice is to put new employee data: \n";
+                for (int i = 0; i < 10; ++i) {
+                    if (employeeSalary[i] == 0) {
+                        cout << "Enter employee name: \n";
+                        cin >> employeeName[i];
+                        cout << "\nEnter employee salary: \n";
+                        cin >> employeeSalary[i];
+
+                        cout << "Wants to end? [PRESS 0] Else [PRESS 1] \n";
+                        cin >> addMoreEmployees;
+                        if (!addMoreEmployees)
+                            break;
+                    }
+                }
+            case 2:
+                cout << "work in progress1";
+                break;
+            case 3:
+                cout << "work in progress2";
+                break;
+            case 4:
+                cout << "work in progress3";
+            case 5:
+                break;
+            default:
+                EXIT_SUCCESS;
+        }
+    } while (menuChoice >= 1 && menuChoice <= 5);
 
     return 0;
 }
