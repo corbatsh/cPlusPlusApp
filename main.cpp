@@ -43,9 +43,10 @@ void showMenu() {
 }
 
 int main() {
-    int memory = 10;
+    const int memory = 10;
     int menuChoice;
     bool addMoreEmployees = true;
+    int employeesWithDataCounter = 0;
     string employeeName[10];
     float employeeSalary[10] = {0};
     float salariesSum = 0;
@@ -69,8 +70,8 @@ int main() {
                         cin >> employeeName[i];
                         cout << "\nEnter employee salary: \n";
                         cin >> employeeSalary[i];
-
-                        cout << "Wants to end? [PRESS 0] Else [PRESS 1] \n";
+                        employeesWithDataCounter++;
+                        cout << "Do You want to add more employees? To proceed [PRESS 1] Else [PRESS 0] \n";
                         cin >> addMoreEmployees;
                         if (!addMoreEmployees)
                             break;
@@ -92,22 +93,18 @@ int main() {
                 cin >> menuChoice;
                 badCinPrevent();
                 salariesSum = 0;
-                employeesCount = 0;
-                for (int i = 0; i < memory; ++i) {
-
-                    if (employeeSalary[i] != 0) {
+                for (int i = 0; i < employeesWithDataCounter; ++i) {
                         salariesSum += employeeSalary[i];
-                        employeesCount++;
                     }
 
                     if (menuChoice == 1) {
                         cout << "Sum of employees salaries totals: " << salariesSum;
                         break;
                     } else if (menuChoice == 2) {
-                        cout << "Average salary totals: " << salariesSum / employeesCount;
-                        break;
+                        float averageSalary = 0;
+                        averageSalary = salariesSum / employeesWithDataCounter;
+                        cout << "Average salary totals: " << averageSalary;
                     }
-                }
                 break;
             case 4:
                 cout << "work in progress3";
