@@ -47,10 +47,13 @@ int main() {
     int menuChoice;
     bool addMoreEmployees = true;
     int employeesWithDataCounter = 0;
-    string employeeName[10];
-    float employeeSalary[10] = {0};
+    string employeeName[memory];
+    float employeeSalary[memory] = {0};
     float salariesSum = 0;
-    int employeesCount = 0;
+    float salaryRangeMin = 0;
+    float salaryRangeMax = 0;
+    bool salaryRangeValidationPass = false;
+    bool foundInRange = false;
     cout << "Payroll Application" << endl << endl;
     do {
         showMenu();
@@ -99,7 +102,6 @@ int main() {
 
                     if (menuChoice == 1) {
                         cout << "Sum of employees salaries totals: " << salariesSum;
-                        break;
                     } else if (menuChoice == 2) {
                         float averageSalary = 0;
                         averageSalary = salariesSum / employeesWithDataCounter;
@@ -107,7 +109,35 @@ int main() {
                     }
                 break;
             case 4:
-                cout << "work in progress3";
+                do {
+                    cout << "Search for salary range:\n\n";
+                    cout << "Enter minimum range of salary\n";
+                    cin >> salaryRangeMin;
+                    badCinPrevent();
+                    cout << "Enter maximum range of salary\n";
+                    cin >> salaryRangeMax;
+                    badCinPrevent();
+                    if (salaryRangeMin <= salaryRangeMax) {
+                        salaryRangeValidationPass = true;
+                    } else {
+                        cout << "minimum salary range can't be higher than maximum!\n";
+                    }
+                } while (!salaryRangeValidationPass);
+                    for (int i  = 0; i < memory; ++i)
+                    {
+                        if (employeeSalary[i] >= salaryRangeMin && employeeSalary[i] <= salaryRangeMax)
+                        {
+                            if (employeeSalary[i] != 0) {
+                                foundInRange = true;
+                                cout << employeeName[i] << ": " << employeeSalary[i] << endl;
+                            }
+                        }
+                    }
+                    if (!foundInRange)
+                    {
+                        cout << "None of the employees salaries meet the requirements\n";
+                    }
+
                 break;
             case 5:
                 break;
