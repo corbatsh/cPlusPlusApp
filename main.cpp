@@ -42,6 +42,16 @@ void showMenu() {
     cout << "Your choice: ";
 }
 
+void bubbleSort(float tab[], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 1; j < n - i; j++) {
+            if (tab[j - 1] > tab[j]) {
+                swap(tab[j - 1], tab[j]);
+            }
+        }
+    }
+}
+
 int main() {
     const int memory = 10;
     int menuChoice;
@@ -55,6 +65,7 @@ int main() {
     bool salaryRangeValidationPass = false;
     bool foundInRange = false;
     cout << "Payroll Application" << endl << endl;
+
     do {
         showMenu();
         cin >> menuChoice;
@@ -80,7 +91,14 @@ int main() {
                             break;
                     }
                 }
+                bubbleSort(employeeSalary, employeesWithDataCounter);
+                break;
             case 2:
+                if (employeesWithDataCounter == 0)
+                {
+                    cout << "\nThere is no data provided!\n";
+                    break;
+                }
                 cout << endl;
                 for (int i = 0; i < memory; ++i) {
                     if (employeeSalary[i] != 0) {
@@ -89,6 +107,11 @@ int main() {
                 }
                 break;
             case 3:
+                if (employeesWithDataCounter == 0)
+                {
+                    cout << "\nThere is no data provided!\n";
+                    break;
+                }
                 cout << "Pick an option from menu below:" << endl;
                 cout << "[1] Sum salaries\n";
                 cout << "[2] calc average salary\n";
@@ -97,18 +120,22 @@ int main() {
                 badCinPrevent();
                 salariesSum = 0;
                 for (int i = 0; i < employeesWithDataCounter; ++i) {
-                        salariesSum += employeeSalary[i];
-                    }
-
-                    if (menuChoice == 1) {
-                        cout << "Sum of employees salaries totals: " << salariesSum;
-                    } else if (menuChoice == 2) {
-                        float averageSalary = 0;
-                        averageSalary = salariesSum / employeesWithDataCounter;
-                        cout << "Average salary totals: " << averageSalary;
-                    }
+                    salariesSum += employeeSalary[i];
+                }
+                if (menuChoice == 1) {
+                    cout << "Sum of employees salaries totals: " << salariesSum;
+                } else if (menuChoice == 2) {
+                    float averageSalary = 0;
+                    averageSalary = salariesSum / employeesWithDataCounter;
+                    cout << "Average salary totals: " << averageSalary;
+                }
                 break;
             case 4:
+                if (employeesWithDataCounter == 0)
+                {
+                    cout << "\nThere is no data provided!\n";
+                    break;
+                }
                 do {
                     cout << "Search for salary range:\n\n";
                     cout << "Enter minimum range of salary\n";
@@ -123,24 +150,19 @@ int main() {
                         cout << "minimum salary range can't be higher than maximum!\n";
                     }
                 } while (!salaryRangeValidationPass);
-                    for (int i  = 0; i < memory; ++i)
-                    {
-                        if (employeeSalary[i] >= salaryRangeMin && employeeSalary[i] <= salaryRangeMax)
-                        {
-                            if (employeeSalary[i] != 0) {
-                                foundInRange = true;
-                                cout << employeeName[i] << ": " << employeeSalary[i] << endl;
-                            }
+                for (int i = 0; i < memory; ++i) {
+                    if (employeeSalary[i] >= salaryRangeMin && employeeSalary[i] <= salaryRangeMax) {
+                        if (employeeSalary[i] != 0) {
+                            foundInRange = true;
+                            cout << employeeName[i] << ": " << employeeSalary[i] << endl;
                         }
                     }
-                    if (!foundInRange)
-                    {
-                        cout << "None of the employees salaries meet the requirements\n";
-                    }
-
+                }
+                if (!foundInRange) {
+                    cout << "None of the employees salaries meet the requirements\n";
+                }
                 break;
             case 5:
-                break;
             default:
                 EXIT_SUCCESS;
         }
